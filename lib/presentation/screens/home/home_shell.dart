@@ -10,13 +10,22 @@ class HomeShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: _BottomNav(
-        currentIndex: navigationShell.currentIndex,
-        onTap: (index) => navigationShell.goBranch(
-          index,
-          initialLocation: index == navigationShell.currentIndex,
+    return PopScope(
+      // Prevent the default "exit app" back behavior while on any Home tab.
+      // Instead, navigate up to School Selection so the user can switch school
+      // without restarting the app.
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) context.go('/schools');
+      },
+      child: Scaffold(
+        body: navigationShell,
+        bottomNavigationBar: _BottomNav(
+          currentIndex: navigationShell.currentIndex,
+          onTap: (index) => navigationShell.goBranch(
+            index,
+            initialLocation: index == navigationShell.currentIndex,
+          ),
         ),
       ),
     );

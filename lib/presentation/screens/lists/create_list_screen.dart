@@ -274,7 +274,7 @@ class _CreateListScreenState extends ConsumerState<CreateListScreen> {
                       Row(
                         children: [
                           _MultiFilterCell<TripType>(
-                            cellLabel: 'To School',
+                            cellLabel: 'Morning',
                             selected: _filterToSchool,
                             summaryOf: (s) {
                               if (s.isEmpty) return 'All';
@@ -289,7 +289,7 @@ class _CreateListScreenState extends ConsumerState<CreateListScreen> {
                           ),
                           const SizedBox(width: 8),
                           _MultiFilterCell<TripType>(
-                            cellLabel: 'From School',
+                            cellLabel: 'Evening',
                             selected: _filterFromSchool,
                             summaryOf: (s) {
                               if (s.isEmpty) return 'All';
@@ -447,7 +447,7 @@ class _CreateListScreenState extends ConsumerState<CreateListScreen> {
   Future<void> _pickToSchool(BuildContext context) async {
     final result = await _showMultiPicker<TripType>(
       context: context,
-      title: 'To School Trip',
+      title: 'Morning',
       items: TripType.values,
       selected: _filterToSchool,
       itemLabel: (t) => t.label,
@@ -458,7 +458,7 @@ class _CreateListScreenState extends ConsumerState<CreateListScreen> {
   Future<void> _pickFromSchool(BuildContext context) async {
     final result = await _showMultiPicker<TripType>(
       context: context,
-      title: 'From School Trip',
+      title: 'Evening',
       items: TripType.values,
       selected: _filterFromSchool,
       itemLabel: (t) => t.label,
@@ -875,12 +875,12 @@ class _StudentRow extends StatelessWidget {
                         if (student.toSchoolTrip != null)
                           TripBadge(
                             type: student.toSchoolTrip!,
-                            direction: 'TO',
+                            direction: 'Morning',
                           ),
                         if (student.fromSchoolTrip != null)
                           TripBadge(
                             type: student.fromSchoolTrip!,
-                            direction: 'FROM',
+                            direction: 'Evening',
                           ),
                       ],
                     ),

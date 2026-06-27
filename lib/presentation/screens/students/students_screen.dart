@@ -142,22 +142,22 @@ class _FilterBar extends ConsumerWidget {
           ),
           const SizedBox(width: 7),
           FilterChipButton(
-            label: _tripLabel(filters.toSchoolTrips, 'To'),
+            label: _tripLabel(filters.toSchoolTrips, 'Morning'),
             isActive: filters.toSchoolTrips.isNotEmpty,
             onTap: () => _pickTrips(
               context,
-              'To School Trip',
+              'Morning',
               filters.toSchoolTrips,
               notifier.setToSchoolTrips,
             ),
           ),
           const SizedBox(width: 7),
           FilterChipButton(
-            label: _tripLabel(filters.fromSchoolTrips, 'From'),
+            label: _tripLabel(filters.fromSchoolTrips, 'Evening'),
             isActive: filters.fromSchoolTrips.isNotEmpty,
             onTap: () => _pickTrips(
               context,
-              'From School Trip',
+              'Evening',
               filters.fromSchoolTrips,
               notifier.setFromSchoolTrips,
             ),

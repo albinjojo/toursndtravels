@@ -95,12 +95,12 @@ class StudentCard extends StatelessWidget {
                         if (student.toSchoolTrip != null)
                           TripBadge(
                             type: student.toSchoolTrip!,
-                            direction: 'TO',
+                            direction: 'Morning',
                           ),
                         if (student.fromSchoolTrip != null)
                           TripBadge(
                             type: student.fromSchoolTrip!,
-                            direction: 'FROM',
+                            direction: 'Evening',
                           ),
                       ],
                     ),
