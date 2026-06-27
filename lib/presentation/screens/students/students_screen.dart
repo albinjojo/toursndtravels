@@ -469,9 +469,9 @@ class _SearchBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       color: AppColors.surface,
-      padding: const EdgeInsets.fromLTRB(14, 6, 14, 14),
+      padding: const EdgeInsets.fromLTRB(14, 8, 14, 16),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
         decoration: BoxDecoration(
           color: AppColors.borderLight,
           borderRadius: BorderRadius.circular(24),
@@ -479,18 +479,18 @@ class _SearchBar extends ConsumerWidget {
         child: Row(
           children: [
             const Icon(Icons.search_rounded,
-                color: AppColors.textTertiary, size: 22),
-            const SizedBox(width: 10),
+                color: AppColors.textTertiary, size: 26),
+            const SizedBox(width: 12),
             Expanded(
               child: TextField(
                 onChanged: (q) =>
                     ref.read(studentFiltersProvider.notifier).setSearchQuery(q),
                 style: GoogleFonts.roboto(
-                    fontSize: 16, color: AppColors.textPrimary),
+                    fontSize: 17, color: AppColors.textPrimary),
                 decoration: InputDecoration(
                   hintText: 'Search students...',
                   hintStyle: GoogleFonts.roboto(
-                      fontSize: 16, color: AppColors.textTertiary),
+                      fontSize: 17, color: AppColors.textTertiary),
                   border: InputBorder.none,
                   isDense: true,
                   contentPadding: EdgeInsets.zero,

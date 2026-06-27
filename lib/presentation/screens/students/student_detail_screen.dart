@@ -278,8 +278,7 @@ class _PhoneRow extends StatelessWidget {
   }
 
   Future<void> _call(String number) async {
-    final uri = Uri(scheme: 'tel', path: number);
-    if (await canLaunchUrl(uri)) await launchUrl(uri);
+    await launchUrl(Uri(scheme: 'tel', path: number));
   }
 }
 
@@ -379,8 +378,7 @@ class _ActionBar extends ConsumerWidget {
 
   Future<void> _call(String number) async {
     if (number.isEmpty) return;
-    final uri = Uri(scheme: 'tel', path: number);
-    if (await canLaunchUrl(uri)) await launchUrl(uri);
+    await launchUrl(Uri(scheme: 'tel', path: number));
   }
 }
 

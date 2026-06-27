@@ -177,22 +177,28 @@ class _StudentRows extends StatelessWidget {
         itemBuilder: (context, index) {
           final s = students[index];
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Row number — large enough to read at a glance
                 SizedBox(
-                  width: 24,
-                  child: Text(
-                    '${index + 1}',
-                    textAlign: TextAlign.right,
-                    style: GoogleFonts.roboto(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.textTertiary,
+                  width: 30,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 2),
+                    child: Text(
+                      '${index + 1}',
+                      textAlign: TextAlign.right,
+                      style: GoogleFonts.roboto(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.textTertiary,
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 14),
+                // Student info
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,19 +206,37 @@ class _StudentRows extends StatelessWidget {
                       Text(
                         s.name,
                         style: GoogleFonts.roboto(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
                           color: AppColors.textPrimary,
                         ),
                       ),
-                      const SizedBox(height: 1),
+                      const SizedBox(height: 5),
+                      // Grade + division badge
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 9, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppColors.navActiveBg,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          'Grade ${s.grade} • ${s.division}',
+                          style: GoogleFonts.roboto(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      // Phone number — prominent secondary detail
                       Text(
-                        'Grade ${s.grade} · ${s.pickupPoint} · ${s.phone1}',
+                        s.phone1,
                         style: GoogleFonts.roboto(
-                          fontSize: 11,
+                          fontSize: 15,
                           color: AppColors.textSecondary,
                         ),
-                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),

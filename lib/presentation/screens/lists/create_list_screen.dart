@@ -11,6 +11,7 @@ import '../../../models/trip_type.dart';
 import '../../../providers/list_providers.dart';
 import '../../../providers/student_providers.dart';
 import '../../widgets/student/student_avatar.dart';
+import '../../widgets/student/student_card.dart';
 import '../../widgets/common/trip_badge.dart';
 
 // ---------------------------------------------------------------------------
@@ -269,7 +270,7 @@ class _CreateListScreenState extends ConsumerState<CreateListScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 12),
                       Row(
                         children: [
                           _MultiFilterCell<TripType>(
@@ -518,21 +519,24 @@ class _MultiFilterCell<T> extends StatelessWidget {
           Text(
             cellLabel,
             style: GoogleFonts.roboto(
-                fontSize: 10, color: AppColors.textSecondary),
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textSecondary,
+            ),
           ),
-          const SizedBox(height: 3),
+          const SizedBox(height: 5),
           GestureDetector(
             onTap: onTap,
             child: Container(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
               decoration: BoxDecoration(
                 color: active ? AppColors.primaryBg : AppColors.surface,
                 border: Border.all(
                   color: active ? AppColors.primary : AppColors.borderMedium,
                   width: 1.5,
                 ),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
                 children: [
@@ -540,9 +544,10 @@ class _MultiFilterCell<T> extends StatelessWidget {
                     child: Text(
                       display,
                       style: GoogleFonts.roboto(
-                        fontSize: 12,
-                        fontWeight:
-                            active ? FontWeight.w700 : FontWeight.w400,
+                        fontSize: 16,
+                        fontWeight: active
+                            ? FontWeight.w700
+                            : FontWeight.w500,
                         color: active
                             ? AppColors.primary
                             : AppColors.textSecondary,
@@ -552,7 +557,7 @@ class _MultiFilterCell<T> extends StatelessWidget {
                   ),
                   Icon(
                     Icons.keyboard_arrow_down_rounded,
-                    size: 14,
+                    size: 18,
                     color:
                         active ? AppColors.primary : AppColors.textTertiary,
                   ),
@@ -765,8 +770,8 @@ class _Checkbox extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 150),
-      width: 18,
-      height: 18,
+      width: 20,
+      height: 20,
       decoration: BoxDecoration(
         color: checked ? AppColors.primary : Colors.transparent,
         border: Border.all(
@@ -776,7 +781,7 @@ class _Checkbox extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
       ),
       child: checked
-          ? const Icon(Icons.check_rounded, size: 12, color: Colors.white)
+          ? const Icon(Icons.check_rounded, size: 13, color: Colors.white)
           : null,
     );
   }
@@ -801,56 +806,85 @@ class _StudentRow extends StatelessWidget {
         color: checked
             ? AppColors.successBg.withAlpha(128)
             : AppColors.surface,
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _Checkbox(checked: checked),
-            const SizedBox(width: 12),
-            StudentAvatar(
-              initials: student.initials,
-              colorIndex: student.avatarColorIndex,
-              radius: 17,
-              fontSize: 11,
+            // Checkbox
+            Padding(
+              padding: const EdgeInsets.only(top: 2),
+              child: _Checkbox(checked: checked),
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 12),
+            // Avatar — ~44dp diameter
+            Padding(
+              padding: const EdgeInsets.only(top: 1),
+              child: StudentAvatar(
+                initials: student.initials,
+                colorIndex: student.avatarColorIndex,
+                radius: 22,
+                fontSize: 13,
+              ),
+            ),
+            const SizedBox(width: 12),
+            // Student details
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Name + grade badge — Flexible prevents badge-induced overflow
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          student.name,
+                          style: GoogleFonts.roboto(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textPrimary,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      GradeBadge(
+                        grade: student.grade,
+                        division: student.division,
+                        colorIndex: student.avatarColorIndex,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 3),
                   Text(
-                    student.name,
+                    student.pickupPoint,
                     style: GoogleFonts.roboto(
                       fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 1),
-                  Text(
-                    'Grade ${student.grade} · ${student.pickupPoint}',
-                    style: GoogleFonts.roboto(
-                      fontSize: 11,
                       color: AppColors.textSecondary,
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
+                  // Trip badges — Wrap handles overflow when both are shown
                   if (student.toSchoolTrip != null ||
-                      student.fromSchoolTrip != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 3),
-                      child: Row(
-                        children: [
-                          if (student.toSchoolTrip != null)
-                            Padding(
-                              padding: const EdgeInsets.only(right: 4),
-                              child: TripBadge(
-                                  type: student.toSchoolTrip!, small: true),
-                            ),
-                          if (student.fromSchoolTrip != null)
-                            TripBadge(
-                                type: student.fromSchoolTrip!, small: true),
-                        ],
-                      ),
+                      student.fromSchoolTrip != null) ...[
+                    const SizedBox(height: 6),
+                    Wrap(
+                      spacing: 5,
+                      runSpacing: 4,
+                      children: [
+                        if (student.toSchoolTrip != null)
+                          TripBadge(
+                            type: student.toSchoolTrip!,
+                            direction: 'TO',
+                          ),
+                        if (student.fromSchoolTrip != null)
+                          TripBadge(
+                            type: student.fromSchoolTrip!,
+                            direction: 'FROM',
+                          ),
+                      ],
                     ),
+                  ],
                 ],
               ),
             ),

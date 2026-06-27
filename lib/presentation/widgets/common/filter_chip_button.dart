@@ -21,8 +21,8 @@ class FilterChipButton extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          constraints: const BoxConstraints(minHeight: 48),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          constraints: const BoxConstraints(minHeight: 52),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
           decoration: BoxDecoration(
             color: isActive ? AppColors.primaryBg : AppColors.surface,
             border: Border.all(
@@ -39,7 +39,7 @@ class FilterChipButton extends StatelessWidget {
                   label,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.roboto(
-                    fontSize: 13,
+                    fontSize: 14,
                     fontWeight:
                         isActive ? FontWeight.w700 : FontWeight.w500,
                     color: isActive
@@ -51,7 +51,7 @@ class FilterChipButton extends StatelessWidget {
               const SizedBox(width: 2),
               Icon(
                 Icons.keyboard_arrow_down_rounded,
-                size: 18,
+                size: 20,
                 color: isActive ? AppColors.primary : AppColors.textTertiary,
               ),
             ],

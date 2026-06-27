@@ -20,42 +20,46 @@ class StudentCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(12),
           border: Border.all(color: AppColors.borderLight),
           boxShadow: const [
             BoxShadow(
-              color: Color(0x0F000000),
-              blurRadius: 4,
-              offset: Offset(0, 2),
+              color: Color(0x0A000000),
+              blurRadius: 3,
+              offset: Offset(0, 1),
             ),
           ],
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Avatar — ~48dp diameter
             Padding(
-              padding: const EdgeInsets.only(top: 2),
+              padding: const EdgeInsets.only(top: 1),
               child: StudentAvatar(
                 initials: student.initials,
                 colorIndex: student.avatarColorIndex,
+                radius: 24,
+                fontSize: 15,
               ),
             ),
-            const SizedBox(width: 14),
+            const SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Name + grade badge
+                  // Name row — Flexible prevents overflow against the badge
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Flexible(
                         child: Text(
                           student.name,
                           style: GoogleFonts.roboto(
-                            fontSize: 17,
+                            fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: AppColors.textPrimary,
                           ),
@@ -63,40 +67,48 @@ class StudentCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      _GradeBadge(
+                      GradeBadge(
                         grade: student.grade,
                         division: student.division,
                         colorIndex: student.avatarColorIndex,
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 3),
                   // Pickup point
                   Text(
                     student.pickupPoint,
                     style: GoogleFonts.roboto(
-                      fontSize: 14,
+                      fontSize: 13,
                       color: AppColors.textSecondary,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 6),
-                  // Trip badges
-                  Row(
-                    children: [
-                      if (student.toSchoolTrip != null)
-                        Padding(
-                          padding: const EdgeInsets.only(right: 6),
-                          child: TripBadge(type: student.toSchoolTrip!),
-                        ),
-                      if (student.fromSchoolTrip != null)
-                        TripBadge(type: student.fromSchoolTrip!),
-                    ],
-                  ),
+                  // Trip badges — Wrap avoids overflow when both are present
+                  if (student.toSchoolTrip != null ||
+                      student.fromSchoolTrip != null) ...[
+                    const SizedBox(height: 6),
+                    Wrap(
+                      spacing: 5,
+                      runSpacing: 4,
+                      children: [
+                        if (student.toSchoolTrip != null)
+                          TripBadge(
+                            type: student.toSchoolTrip!,
+                            direction: 'TO',
+                          ),
+                        if (student.fromSchoolTrip != null)
+                          TripBadge(
+                            type: student.fromSchoolTrip!,
+                            direction: 'FROM',
+                          ),
+                      ],
+                    ),
+                  ],
                 ],
               ),
             ),
-            const SizedBox(width: 6),
+            const SizedBox(width: 4),
             const Padding(
               padding: EdgeInsets.only(top: 6),
               child: Icon(
@@ -112,8 +124,10 @@ class StudentCard extends StatelessWidget {
   }
 }
 
-class _GradeBadge extends StatelessWidget {
-  const _GradeBadge({
+/// Shared grade + division badge — used on Students page and Create List page.
+class GradeBadge extends StatelessWidget {
+  const GradeBadge({
+    super.key,
     required this.grade,
     required this.division,
     required this.colorIndex,
@@ -128,15 +142,15 @@ class _GradeBadge extends StatelessWidget {
     final (bg, fg) =
         AppColors.avatarPalette[colorIndex % AppColors.avatarPalette.length];
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(7),
       ),
       child: Text(
-        '$grade · $division',
+        'Grade $grade • $division',
         style: GoogleFonts.roboto(
-          fontSize: 11,
+          fontSize: 13,
           fontWeight: FontWeight.w700,
           color: fg,
         ),

@@ -44,13 +44,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     return Scaffold(
       backgroundColor: AppColors.primary,
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
-            Expanded(
+            // ── Centre group ──────────────────────────────────────────────
+            // Center widget gives this column a guaranteed geometric centre
+            // regardless of SafeArea insets or screen aspect ratio.
+            Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Van icon
+                  // Logo
                   Container(
                     width: 96,
                     height: 96,
@@ -64,44 +68,54 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 18),
+
+                  const SizedBox(height: 24),
+
+                  // Title — textAlign ensures the glyphs themselves are centred,
+                  // not just the Text widget's bounding box.
                   Text(
-                    'Alphonsa',
+                    'Alphonsa Van Service',
+                    textAlign: TextAlign.center,
                     style: GoogleFonts.roboto(
-                      fontSize: 24,
+                      fontSize: 32,
                       fontWeight: FontWeight.w700,
                       color: Colors.white,
-                      height: 1.15,
+                      letterSpacing: -0.3,
+                      height: 1.2,
                     ),
                   ),
-                  Text(
-                    'Van Service',
-                    style: GoogleFonts.roboto(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                      height: 1.15,
-                    ),
-                  ),
-                  const SizedBox(height: 7),
+
+                  const SizedBox(height: 12),
+
+                  // Subtitle
                   Text(
                     'Student Management',
+                    textAlign: TextAlign.center,
                     style: GoogleFonts.roboto(
-                      fontSize: 13,
-                      color: Colors.white.withAlpha(153),
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white.withAlpha(191),
                     ),
                   ),
-                  const SizedBox(height: 52),
+
+                  const SizedBox(height: 36),
+
+                  // Animated loading dots
                   _AnimatedDots(controller: _dotController),
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 24),
+
+            // ── Version — pinned to the bottom, not part of the flex tree ──
+            Positioned(
+              bottom: 28,
+              left: 0,
+              right: 0,
               child: Text(
                 'v2.0.0',
+                textAlign: TextAlign.center,
                 style: GoogleFonts.roboto(
-                  fontSize: 11,
+                  fontSize: 12,
                   color: Colors.white.withAlpha(115),
                 ),
               ),
