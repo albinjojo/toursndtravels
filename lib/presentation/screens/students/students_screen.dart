@@ -108,11 +108,6 @@ class _AppBar extends ConsumerWidget {
               ],
             ),
           ),
-          IconButton(
-            icon: const Icon(Icons.search_rounded,
-                color: AppColors.textMedium, size: 26),
-            onPressed: () {},
-          ),
         ],
       ),
     );
@@ -469,29 +464,32 @@ class _SearchBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       color: AppColors.surface,
-      padding: const EdgeInsets.fromLTRB(14, 8, 14, 16),
+      padding: const EdgeInsets.fromLTRB(14, 8, 14, 14),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
           color: AppColors.borderLight,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Icon(Icons.search_rounded,
-                color: AppColors.textTertiary, size: 26),
-            const SizedBox(width: 12),
+                color: AppColors.textTertiary, size: 22),
+            const SizedBox(width: 10),
             Expanded(
               child: TextField(
                 onChanged: (q) =>
                     ref.read(studentFiltersProvider.notifier).setSearchQuery(q),
                 style: GoogleFonts.roboto(
-                    fontSize: 17, color: AppColors.textPrimary),
+                    fontSize: 16, color: AppColors.textPrimary),
                 decoration: InputDecoration(
                   hintText: 'Search students...',
                   hintStyle: GoogleFonts.roboto(
-                      fontSize: 17, color: AppColors.textTertiary),
+                      fontSize: 16, color: AppColors.textTertiary),
                   border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
                   isDense: true,
                   contentPadding: EdgeInsets.zero,
                   filled: false,
